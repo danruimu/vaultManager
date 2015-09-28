@@ -3,15 +3,12 @@ package walletManager;
 import java.sql.*;
 
 public class dbDriver {
-    private Connection connection;
+    private Connection connection = null;
     private String dbName;
     private String dbServer;
+    private Statement st = null;
     
     public dbDriver() {
-	
-    }
-    
-    private void init() {
 	try {
 	    Class.forName("com.mysql.jdbc.Driver");
 	} catch (Exception e) {
@@ -20,24 +17,35 @@ public class dbDriver {
     }
     
     public void initDatabase(String dbName, String dbServer, String user, String pass) {
-	init();
 	this.dbName = dbName;
 	this.dbServer = dbServer;
+	if (this.connection == null || this.st == null) {
+	    try {
+		this.connection = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/mysql", user, pass);
+		    this.st = connection.createStatement();
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
+	}
 	try {
-	    this.connection = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/mysql", user, pass);
-	    Statement st = connection.createStatement();
-	    st.executeUpdate("CREATE DATABASE IF NOT EXISTS " + dbName);
+	    this.st.executeUpdate("CREATE DATABASE IF NOT EXISTS " + dbName);
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	}
     }
     
     public void resetDatabase(String user, String pass) {
-	init();
+	if (this.connection == null || this.st == null) {
+	    try {
+		this.connection = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/mysql", user, pass);
+		    this.st = connection.createStatement();
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
+	}
+
 	try {
-	    this.connection = DriverManager.getConnection("jdbc:mysql://" + dbServer +"/mysql", user, pass);
-	    Statement st = connection.createStatement();
-	    st.executeUpdate("DROP DATABASE " + this.dbName);
+	    this.st.executeUpdate("DROP DATABASE " + this.dbName);
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	}
