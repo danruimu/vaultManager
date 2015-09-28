@@ -3,10 +3,10 @@ package walletManager;
 import java.sql.*;
 
 public class dbDriver {
-    private Connection connection = null;
+    private Connection connection;
     private String dbName;
     private String dbServer;
-    private Statement st = null;
+    private Statement st;
     
     public dbDriver() {
 	try {
@@ -14,6 +14,8 @@ public class dbDriver {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
+	st = null;
+	connection = null;
     }
     
     public void initDatabase(String dbName, String dbServer, String user, String pass) {
