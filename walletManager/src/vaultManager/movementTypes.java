@@ -1,4 +1,4 @@
-package walletManager;
+package vaultManager;
 
 public enum movementTypes {
     WALLET_BANK, WALLET_SAVE,

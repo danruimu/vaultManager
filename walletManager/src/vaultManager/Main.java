@@ -1,4 +1,4 @@
-package walletManager;
+package vaultManager;
 
 public class Main {
 

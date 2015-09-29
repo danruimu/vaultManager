@@ -1,7 +1,7 @@
 /**
  * 
  */
-package walletManager;
+package vaultManager;
 
 import java.util.Date;
 
